@@ -1,0 +1,15 @@
+spring:
+  kafka:
+    consumer:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      auto-offset-reset: earliest
+      group-id: chat-worker
+      properties:
+        schema:
+          registry:
+            ur: ${SCHEMA_REGISTRY_URL}
+        specific:
+          avro:
+            reader: true

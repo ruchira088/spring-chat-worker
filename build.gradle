@@ -1,0 +1,54 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.0'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'application'
+    id 'com.adarshr.test-logger' version '3.2.0'
+}
+
+group = 'com.ruchij'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+    mavenCentral()
+
+    maven {
+        url 'https://packages.confluent.io/maven/'
+    }
+
+    maven {
+        credentials {
+            username artifactoryUsername
+            password artifactoryPassword
+        }
+
+        url 'https://ruchij.jfrog.io/artifactory/default-maven-virtual/'
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.kafka:spring-kafka'
+    implementation 'io.confluent:kafka-avro-serializer:7.1.1'
+    implementation 'com.ruchij:chat-avro-schemas:1.0.1'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+application {
+    mainClass = 'com.ruchij.SpringChatWorkerApplication'
+}
+
+distTar {
+    archiveName 'chat-worker.tar'
+}
