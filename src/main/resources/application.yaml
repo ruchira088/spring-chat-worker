@@ -9,7 +9,16 @@ spring:
       properties:
         schema:
           registry:
-            ur: ${SCHEMA_REGISTRY_URL}
+            url: ${SCHEMA_REGISTRY_URL}
         specific:
           avro:
             reader: true
+  data:
+    mongodb:
+      uri: ${MONGO_URL}
+      database: ${MONGO_DATABASE}
+
+application:
+  api-service:
+    url: ${API_SERVICE_URL}
+    authentication-token: ${API_AUTHENTICATION_TOKEN}
