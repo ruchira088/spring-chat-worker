@@ -1,7 +1,6 @@
 package com.ruchij.daos.message.models;
 
 import org.joda.time.DateTime;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
@@ -9,7 +8,6 @@ import java.util.Optional;
 
 @Document
 public class MongoMessage {
-    @Id
     private String messageId;
     private String senderId;
     private Instant sentAt;

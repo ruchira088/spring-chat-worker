@@ -33,12 +33,16 @@ public class ApiServiceImpl implements ApiService {
 
     @Override
     public Mono<Boolean> push(OneToOne oneToOne) {
+        logger.info("Pushing messageId=%s to receiverId=%s".formatted(oneToOne.messageId(), oneToOne.receiverId()));
+
         return webClient.post()
             .uri("/push")
             .contentType(MediaType.APPLICATION_JSON)
             .body(Mono.just(new PushMessageRequest<>(oneToOne.receiverId(), oneToOne)), PushMessageRequest.class)
             .retrieve()
             .toBodilessEntity()
-            .map(responseEntity -> responseEntity.getStatusCode().is2xxSuccessful());
+            .map(responseEntity -> responseEntity.getStatusCode().is2xxSuccessful())
+            .doOnNext(result -> logger.info("Push result: messageId=%s, receiverId=%s, result=%s".formatted(oneToOne.messageId(), oneToOne.receiverId(), result)))
+            .doOnError(throwable -> logger.error("Failed to push: messageId=%s, receiverId=%s".formatted(oneToOne.messageId(), oneToOne.receiverId()), throwable));
     }
 }
