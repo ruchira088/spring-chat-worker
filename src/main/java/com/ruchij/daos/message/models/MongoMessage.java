@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.Instant;
 import java.util.Optional;
 
-@Document
+@Document(collection = "messages")
 public class MongoMessage {
     private String messageId;
     private String senderId;
